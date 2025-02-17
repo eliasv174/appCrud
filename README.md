@@ -1,6 +1,5 @@
-# Aun en proceso
 # Formulario de Registro con Firebase
-
+Aun en proceso
 ## Descripción
 
 Aplicación Android que permite a los usuarios completar un formulario de registro con los campos **Nombres**, **Apellidos**, **Edad**, **Teléfono**, **Correo Electrónico** y **Empresas**. Los datos se almacenan en **Firebase Firestore** en tiempo real.
