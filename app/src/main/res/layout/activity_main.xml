@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="#f7f7f7"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Registro Colaboradores"
+        android:textSize="24sp"
+        android:textColor="#333333"
+        android:layout_marginBottom="20dp"
+        android:textStyle="bold"/>
+
+    <!-- Nombres -->
+    <EditText
+        android:id="@+id/etNombres"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nombres"
+        android:inputType="text"
+        android:textColor="#333333"
+        android:textSize="16sp"
+
+        android:layout_marginBottom="16dp"
+        android:padding="12dp"/>
+
+    <!-- Apellidos -->
+    <EditText
+        android:id="@+id/etApellidos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Apellidos"
+        android:inputType="text"
+        android:textColor="#333333"
+        android:textSize="16sp"
+
+        android:layout_marginBottom="16dp"
+        android:padding="12dp"/>
+
+    <!-- Edad -->
+    <EditText
+        android:id="@+id/etEdad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Edad"
+        android:inputType="number"
+        android:textColor="#333333"
+        android:textSize="16sp"
+
+        android:layout_marginBottom="16dp"
+        android:padding="12dp"/>
+
+    <!-- Teléfono -->
+    <EditText
+        android:id="@+id/etTelefono"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Teléfono"
+        android:inputType="phone"
+        android:textColor="#333333"
+        android:textSize="16sp"
+
+        android:layout_marginBottom="16dp"
+        android:padding="12dp"/>
+
+    <!-- Correo Electrónico -->
+    <EditText
+        android:id="@+id/etCorreo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Correo Electrónico"
+        android:inputType="textEmailAddress"
+        android:textColor="#333333"
+        android:textSize="16sp"
+
+        android:layout_marginBottom="16dp"
+        android:padding="12dp"/>
+
+    <!-- Spinner para Empresas -->
+    <Spinner
+        android:id="@+id/spinnerEmpresas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Botón de Enviar -->
+    <Button
+        android:id="@+id/btnEnviar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Enviar"
+        android:textColor="#ffffff"
+        android:backgroundTint="#4CAF50"
+        android:textSize="16sp"
+        android:padding="14dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="center" />
+
+</LinearLayout>
