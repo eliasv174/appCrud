@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "616899424433",
+    "project_id": "crud-pcd",
+    "storage_bucket": "crud-pcd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:616899424433:android:1263f4924eada934edf290",
+        "android_client_info": {
+          "package_name": "com.example.pcdapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCN-yP-fp7BgqoqrAXSGYVJaxk1wh70tXo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
