@@ -12,9 +12,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 @Composable
-fun NavigationWrapper(navHostController: NavHostController,
-                      auth: FirebaseAuth,
-                      db: FirebaseFirestore
+fun NavigationWrapper(
+    navHostController: NavHostController,
+    auth: FirebaseAuth,
+    db: FirebaseFirestore
 ) {
     NavHost(navController = navHostController, startDestination = "initial") {
         composable("initial") {
@@ -24,13 +25,23 @@ fun NavigationWrapper(navHostController: NavHostController,
             )
         }
         composable("login") {
-            LoginScreen(auth){ navHostController.navigate("home") }
+            LoginScreen(
+                auth = auth,
+                navigateToHome = { navHostController.navigate("home") },
+                navigateBack = { navHostController.popBackStack() } // Navegación hacia atrás
+            )
         }
         composable("signup") {
-            SignUpScreen(auth)
+            SignUpScreen(
+                auth = auth,
+                navigateBack = { navHostController.popBackStack() } // Navegación hacia atrás
+            )
         }
-        composable("home"){
-            HomeScreen(db)
+        composable("home") {
+            HomeScreen(
+                db = db,
+                navigateBack = { navHostController.popBackStack() } // Navegación hacia atrás
+            )
         }
     }
 }

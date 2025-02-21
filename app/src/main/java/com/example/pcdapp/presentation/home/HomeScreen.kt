@@ -173,18 +173,30 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.data.UiToolingDataApi
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.pcdapp.R
 import com.google.firebase.firestore.FirebaseFirestore
 import com.example.pcdapp.presentation.model.Colaborador
 import com.example.pcdapp.presentation.model.Empresa
+import androidx.compose.foundation.layout.Box
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
+
+
 
 @Composable
-fun HomeScreen(db: FirebaseFirestore) {
+fun HomeScreen(db: FirebaseFirestore,
+               navigateBack: () -> Unit) {
+    val context = LocalContext.current
     var nombres by remember { mutableStateOf("") }
     var apellidos by remember { mutableStateOf("") }
     var edad by remember { mutableStateOf(0) }
@@ -201,43 +213,62 @@ fun HomeScreen(db: FirebaseFirestore) {
     }
 
     Column(modifier = Modifier.padding(16.dp)) {
+
+        Spacer(modifier = Modifier.height(68.dp))
+        IconButton(onClick = { navigateBack() }) {
+
+            Icon(
+                painter = painterResource(id = R.drawable.ic_back_24),
+                contentDescription = "Volver",
+                tint = White
+            )
+        }
         // Campos del formulario
-        Text("Nombres")
+        Text("Nombres", color = White, fontWeight = FontWeight.Bold, fontSize = 18.sp,modifier = Modifier.align(CenterHorizontally))
         TextField(
             value = nombres,
             onValueChange = { nombres = it },
             modifier = Modifier.fillMaxWidth()
         )
 
-        Text("Apellidos")
+        Text("Apellidos"
+            , color = White
+            , fontWeight = FontWeight.Bold
+            , fontSize = 18.sp
+            , modifier = Modifier.align(
+            CenterHorizontally
+        )
+        )
         TextField(
             value = apellidos,
             onValueChange = { apellidos = it },
             modifier = Modifier.fillMaxWidth()
         )
 
-        Text("Edad")
+        Text("Edad", color = White, fontWeight = FontWeight.Bold, fontSize = 18.sp,modifier = Modifier.align(CenterHorizontally)
+        )
         TextField(
             value = edad.toString(),
             onValueChange = { edad = it.toIntOrNull() ?: 0 },
             modifier = Modifier.fillMaxWidth()
         )
 
-        Text("Teléfono")
+        Text("Teléfono", color = White, fontWeight = FontWeight.Bold, fontSize = 18.sp,modifier = Modifier.align(CenterHorizontally))
         TextField(
             value = telefono.toString(),
             onValueChange = { telefono = it.toIntOrNull() ?: 0 },
             modifier = Modifier.fillMaxWidth()
         )
 
-        Text("Correo Electrónico")
+        Text("Correo Electrónico", color = White, fontWeight = FontWeight.Bold, fontSize = 18.sp,modifier = Modifier.align(CenterHorizontally)
+        )
         TextField(
             value = correoElectronico,
             onValueChange = { correoElectronico = it },
             modifier = Modifier.fillMaxWidth()
         )
 
-        Text("Seleccionar Empresas")
+        Text("Seleccionar Empresas", color = White, fontWeight = FontWeight.Bold, fontSize = 18.sp,modifier = Modifier.align(CenterHorizontally))
 
         // Lista de empresas con checkboxes
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
@@ -259,9 +290,55 @@ fun HomeScreen(db: FirebaseFirestore) {
         }
 
         Spacer(modifier = Modifier.height(16.dp))
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Button(onClick = {
+                val colaborador = Colaborador(
+                    nombres = nombres,
+                    apellidos = apellidos,
+                    edad = edad,
+                    telefono = telefono,
+                    correoElectronico = correoElectronico,
+                    empresas = selectedEmpresas
+                )
 
-        Button(onClick = {
-            // Crear el colaborador con las empresas seleccionadas
+                val colaboradorMap = hashMapOf(
+                    "nombres" to colaborador.nombres,
+                    "apellidos" to colaborador.apellidos,
+                    "edad" to colaborador.edad,
+                    "telefono" to colaborador.telefono,
+                    "correoElectronico" to colaborador.correoElectronico,
+                    "empresa" to colaborador.empresas.map { empresa ->
+                        mapOf("razonSocial" to empresa.razonSocial)
+                    }
+                )
+
+                db.collection("colaboradores")
+                    .add(colaboradorMap)
+                    .addOnSuccessListener {
+                        Log.i("Firebase", "Colaborador creado con éxito")
+                        Toast.makeText(context, "Colaborador Guardado exitosamente", Toast.LENGTH_LONG).show()
+                        nombres = ""
+                        apellidos = ""
+                        edad = 0
+                        telefono = 0
+                        correoElectronico = ""
+                        selectedEmpresas = emptyList()
+                    }
+                    .addOnFailureListener {
+                        Log.i("Firebase", "Error al crear colaborador")
+                        Toast.makeText(context, "Error al guardar colaborador", Toast.LENGTH_LONG).show()
+
+                    }
+            }) {
+                Text("Guardar Colaborador")
+            }
+        }
+
+       /* Button(onClick = {
+
             val colaborador = Colaborador(
                 nombres = nombres,
                 apellidos = apellidos,
@@ -284,18 +361,19 @@ fun HomeScreen(db: FirebaseFirestore) {
             )
 
             // Agregar el colaborador a Firestore
-            db.collection("colaboradores")
+          /*  db.collection("colaboradores")
                 .add(colaboradorMap)
                 .addOnSuccessListener {
                     Log.i("Firebase", "Colaborador creado con éxito")
                 }
                 .addOnFailureListener {
                     Log.i("Firebase", "Error al crear colaborador")
-                }
+                }*/
         }) {
             Text("Guardar Colaborador")
         }
 
+    }*/
     }
 }
 

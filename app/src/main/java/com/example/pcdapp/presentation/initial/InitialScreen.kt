@@ -65,7 +65,7 @@ fun InitialScreen(navigateToLogin: () -> Unit = {}, navigateToSignUp: () -> Unit
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
-        CustomButton(Modifier.clickable {  },painter = painterResource(id = R.drawable.google), title = "Continuar con Google")
+       //CustomButton(Modifier.clickable {  },painter = painterResource(id = R.drawable.google), title = "Continuar con Google")
         Spacer(modifier = Modifier.height(48.dp))
         Text(
             text = "Inicia Sesión",

@@ -35,6 +35,9 @@ import com.example.pcdapp.R
 import com.example.pcdapp.ui.theme.Black
 import com.google.firebase.auth.FirebaseAuth
 import android.util.Log
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.IconButton
+
 
 
 val UnselectedField = Color.Gray
@@ -42,9 +45,13 @@ val SelectedField = Color.Gray
 
 
 @Composable
-fun LoginScreen(auth: FirebaseAuth, navigateToHome: () -> Unit) {
+fun LoginScreen(auth: FirebaseAuth,
+                navigateToHome: () -> Unit,
+                navigateBack: () -> Unit
+){
         var email by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
+        var showErrordialog by remember { mutableStateOf(false) }
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -54,9 +61,14 @@ fun LoginScreen(auth: FirebaseAuth, navigateToHome: () -> Unit) {
             ) {
 
             Spacer(Modifier.height(100.dp))
+            IconButton(onClick = { navigateBack() }) {
 
-            Icon(painter = painterResource(id = R.drawable.ic_back_24), contentDescription = "", tint = White)
-
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_back_24),
+                    contentDescription = "Volver",
+                    tint = White
+                )
+            }
             Text(
                 "Inicia Sesión ",
                 color = White,
@@ -81,18 +93,51 @@ fun LoginScreen(auth: FirebaseAuth, navigateToHome: () -> Unit) {
             )
             )
             Spacer(Modifier.height(28.dp))
-
-            Button(onClick = {
-            auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-                if(task.isSuccessful){
-                    navigateToHome()
-                    Log.i("Inicio de Sesión","Correcto")
-                }else{
-                    Log.i("Inicio de Sesión", "Incorrecto")
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                Button(onClick = {
+                    auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            navigateToHome()
+                            Log.i("Inicio de Sesión", "Correcto")
+                        } else {
+                            Log.i("Inicio de Sesión", "Incorrecto")
+                            showErrordialog = true
+                            email = ""
+                            password = ""
+                        }
+                    }
+                }) {
+                    Text(
+                        "Iniciar Sesión",
+                        color = Black,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 28.sp
+                    )
                 }
             }
-        }){
-            Text("Iniciar Sesión", color = Black, fontWeight = FontWeight.Bold, fontSize = 28.sp)
-        }
+            Spacer(Modifier.height(88.dp))
+
+            if (showErrordialog) {
+                ErrorDialog(OnDismiss = { showErrordialog = false })
+            }
     }
+}
+
+@Composable
+fun ErrorDialog(OnDismiss: () -> Unit) {
+    androidx.compose.material3.AlertDialog(
+        onDismissRequest = { OnDismiss() },
+        title = { Text(text = "Error de inicio de sesión") },
+        text = { Text(text = "Correo electrónico o contraseña incorrectos") },
+        confirmButton = {
+            Button(
+                onClick = OnDismiss
+            ) {
+                Text(text = "Aceptar")
+            }
+        }
+    )
 }

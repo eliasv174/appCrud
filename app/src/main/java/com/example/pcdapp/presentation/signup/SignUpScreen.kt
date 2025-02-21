@@ -3,6 +3,7 @@ package com.example.pcdapp.presentation.signup
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -21,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color.Companion.White
@@ -35,7 +38,8 @@ import com.example.pcdapp.ui.theme.Black
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun SignUpScreen(auth: FirebaseAuth) {
+fun SignUpScreen(auth: FirebaseAuth,
+                 navigateBack: () -> Unit) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var showDialog by remember { mutableStateOf(false) }
@@ -80,8 +84,13 @@ fun SignUpScreen(auth: FirebaseAuth) {
         ) {
 
         Spacer(Modifier.height(100.dp))
-
-        Icon(painter = painterResource(id = R.drawable.ic_back_24), contentDescription = "", tint = White)
+        IconButton(onClick = { navigateBack() }) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_back_24),
+                contentDescription = "Volver",
+                tint = White
+            )
+        }
 
         Text(
             "Registrar",
@@ -111,17 +120,21 @@ fun SignUpScreen(auth: FirebaseAuth) {
             )
         )
         Spacer(Modifier.height(28.dp))
-
-        Button(onClick = {
-            auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-                if(task.isSuccessful){
-                    showSuccessDialog()
-                }else{
-                    Log.i("Registro de Usuario", "Incorrecto")
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Button(onClick = {
+                auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        showSuccessDialog()
+                    } else {
+                        Log.i("Registro de Usuario", "Incorrecto")
+                    }
                 }
+            }) {
+                Text("Registrar", color = Black, fontWeight = FontWeight.Bold, fontSize = 28.sp)
             }
-        }){
-            Text("Registrar", color = Black, fontWeight = FontWeight.Bold, fontSize = 28.sp)
         }
     }
 
